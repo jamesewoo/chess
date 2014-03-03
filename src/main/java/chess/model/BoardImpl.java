@@ -1,7 +1,6 @@
 package chess.model;
 
-import chess.model.pieces.King;
-import chess.model.pieces.Piece;
+import chess.model.pieces.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,12 +22,40 @@ public class BoardImpl implements Board {
 
     public BoardImpl() {
         activePlayer = WHITE;
-        Position position = new PositionImpl(7, 3);
         whiteKing = new King(WHITE);
-        positionPieceMap.put(position, whiteKing);
-        position = new PositionImpl(0, 3);
         blackKing = new King(BLACK);
-        positionPieceMap.put(position, blackKing);
+        positionPieceMap.put(new PositionImpl(6, 0), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 1), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 2), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 3), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 4), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 5), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 6), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(6, 7), new Pawn(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 0), new Rook(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 7), new Rook(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 1), new Knight(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 6), new Knight(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 2), new Bishop(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 5), new Bishop(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 3), new Queen(WHITE));
+        positionPieceMap.put(new PositionImpl(7, 4), whiteKing);
+        positionPieceMap.put(new PositionImpl(1, 0), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 1), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 2), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 3), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 4), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 5), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 6), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(1, 7), new Pawn(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 0), new Rook(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 7), new Rook(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 1), new Knight(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 6), new Knight(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 2), new Bishop(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 5), new Bishop(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 3), new Queen(BLACK));
+        positionPieceMap.put(new PositionImpl(0, 4), blackKing);
     }
 
     @Override
