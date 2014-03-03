@@ -17,13 +17,13 @@ import static java.lang.System.lineSeparator;
 public class BoardImpl implements Board {
 
     private final Map<Position, Piece> positionPieceMap = new HashMap<>();
-    private final King whiteKing;
-    private final King blackKing;
+    private final Piece whiteKing;
+    private final Piece blackKing;
     private Color activePlayer;
 
     public BoardImpl() {
         activePlayer = WHITE;
-        PositionImpl position = new PositionImpl(7, 3);
+        Position position = new PositionImpl(7, 3);
         whiteKing = new King(WHITE);
         positionPieceMap.put(position, whiteKing);
         position = new PositionImpl(0, 3);
@@ -76,6 +76,12 @@ public class BoardImpl implements Board {
                 positionPieceMap.put(newPosition, existingPiece);
             }
             return false;
+        }
+
+        if (activePlayer == WHITE) {
+            activePlayer = BLACK;
+        } else {
+            activePlayer = WHITE;
         }
         return true;
     }

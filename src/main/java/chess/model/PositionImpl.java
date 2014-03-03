@@ -27,7 +27,7 @@ public class PositionImpl implements Position {
         if (obj.getClass() != getClass()) {
             return false;
         }
-        PositionImpl rhs = (PositionImpl) obj;
+        Position rhs = (Position) obj;
         return new EqualsBuilder()
                 .append(row, rhs.getRow())
                 .append(column, rhs.getColumn())

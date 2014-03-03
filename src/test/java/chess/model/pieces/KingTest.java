@@ -1,9 +1,9 @@
 package chess.model.pieces;
 
-import chess.model.Color;
 import chess.model.PositionImpl;
 import org.junit.Test;
 
+import static chess.model.Color.WHITE;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -11,10 +11,9 @@ import static org.junit.Assert.assertTrue;
  * Created by evadrone on 3/3/14.
  */
 public class KingTest {
-
     @Test
     public void testIsValidMove() {
-        King king = new King(Color.WHITE);
+        Piece king = new King(WHITE);
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 0)));
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 1)));
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 2)));
