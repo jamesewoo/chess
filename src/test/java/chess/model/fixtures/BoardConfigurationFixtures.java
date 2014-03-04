@@ -39,4 +39,17 @@ public class BoardConfigurationFixtures {
         boardConfig.put(new PositionImpl(5, 1), new Rook(BLACK));
         return boardConfig;
     }
+
+    public static Map<Position, Piece> newMidGameFixture() {
+        Map<Position, Piece> boardConfig = new HashMap<>();
+        boardConfig.put(new PositionImpl(0, 4), new King(BLACK));
+        boardConfig.put(new PositionImpl(7, 4), new King(WHITE));
+        boardConfig.put(new PositionImpl(4, 2), new Rook(WHITE));
+        boardConfig.put(new PositionImpl(4, 1), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(3, 7), new Bishop(WHITE));
+        boardConfig.put(new PositionImpl(6, 4), new Bishop(BLACK));
+        boardConfig.put(new PositionImpl(5, 5), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(2, 6), new Pawn(BLACK));
+        return boardConfig;
+    }
 }

@@ -136,17 +136,9 @@ public class BoardImpl implements Board {
             System.out.println("a piece of the same color already exists at the new position");
             return false;
         }
-        if (!(piece instanceof Knight)) {
-            int rowSign = signum(newPosition.getRow() - currentPosition.getRow());
-            int columnSign = signum(newPosition.getColumn() - currentPosition.getColumn());
-            Position inBetween = new PositionImpl(currentPosition.getRow() + rowSign, currentPosition.getColumn() + columnSign);
-            while (!newPosition.equals(inBetween)) {
-                if (boardConfig.get(inBetween) != null) {
-                    System.out.println("the move would cause a collision before reaching the endpoint");
-                    return false;
-                }
-                inBetween = new PositionImpl(inBetween.getRow() + rowSign, inBetween.getColumn() + columnSign);
-            }
+        if (!(piece instanceof Knight) && !isPathCollisionFree(currentPosition, newPosition)) {
+            System.out.println("the move would cause a collision before reaching the endpoint");
+            return false;
         }
 
         boardConfig.remove(currentPosition);
@@ -165,6 +157,26 @@ public class BoardImpl implements Board {
             activePlayer = BLACK;
         } else {
             activePlayer = WHITE;
+        }
+        return true;
+    }
+
+    /**
+     * Returns true if there are no pieces along the path given by the start and end points, excluding the endpoints.
+     *
+     * @param start the start position
+     * @param end   the end position
+     * @return true if there are no pieces along the path given by the start and end points
+     */
+    boolean isPathCollisionFree(Position start, Position end) {
+        int rowSign = signum(end.getRow() - start.getRow());
+        int columnSign = signum(end.getColumn() - start.getColumn());
+        Position inBetween = new PositionImpl(start.getRow() + rowSign, start.getColumn() + columnSign);
+        while (!end.equals(inBetween)) {
+            if (boardConfig.get(inBetween) != null) {
+                return false;
+            }
+            inBetween = new PositionImpl(inBetween.getRow() + rowSign, inBetween.getColumn() + columnSign);
         }
         return true;
     }
@@ -197,7 +209,10 @@ public class BoardImpl implements Board {
         }
         for (Entry<Position, Piece> entry : boardConfig.entrySet()) {
             Piece p = entry.getValue();
-            if (p.getColor() != color && p.isValidMove(entry.getKey(), kingPosition)) {
+            Position start = entry.getKey();
+            if (p.getColor() != color
+                    && p.isValidMove(start, kingPosition)
+                    && isPathCollisionFree(start, kingPosition)) {
                 return true;
             }
         }

@@ -9,6 +9,7 @@ import java.util.Map;
 import static chess.model.Color.BLACK;
 import static chess.model.Color.WHITE;
 import static chess.model.fixtures.BoardConfigurationFixtures.newEndGameFixture;
+import static chess.model.fixtures.BoardConfigurationFixtures.newMidGameFixture;
 import static org.junit.Assert.*;
 
 /**
@@ -112,12 +113,29 @@ public class BoardImplTest {
 
     @Test
     public void testMoveCollidesWithPieceDuringTraversal() {
-        // TODO
+        Board board = new BoardImpl(WHITE, newMidGameFixture());
+        System.out.println(board);
+        assertFalse(board.move(new PositionImpl(4, 2), new PositionImpl(4, 0)));
+        board = new BoardImpl(BLACK, newMidGameFixture());
+        assertFalse(board.move(new PositionImpl(6, 4), new PositionImpl(3, 7)));
+        assertFalse(board.move(new PositionImpl(6, 4), new PositionImpl(3, 1)));
+        assertTrue("this is a valid capture", board.move(new PositionImpl(6, 4), new PositionImpl(4, 2)));
+        System.out.println(board);
     }
 
     @Test
     public void testMoveExposesKingOfSameColor() {
-        // TODO
+        Board board = new BoardImpl(WHITE, newMidGameFixture());
+        System.out.println(board);
+        Piece pieceToCapture = board.getPiece(new PositionImpl(6, 4));
+        assertFalse(board.move(new PositionImpl(7, 4), new PositionImpl(6, 4)));
+        assertEquals("the canceled move resulted in a change to the board", pieceToCapture, board.getPiece(new PositionImpl(6, 4)));
+        System.out.println(board);
+        board = new BoardImpl(BLACK, newMidGameFixture());
+        System.out.println(board);
+        assertFalse(board.move(new PositionImpl(2, 6), new PositionImpl(3, 6)));
+        assertNotNull("the canceled move resulted in a change to the board", board.getPiece(new PositionImpl(2, 6)));
+        System.out.println(board);
     }
 
     @Test
