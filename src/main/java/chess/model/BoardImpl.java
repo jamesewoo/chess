@@ -9,6 +9,7 @@ import static chess.model.Color.BLACK;
 import static chess.model.Color.WHITE;
 import static chess.model.Direction.DOWN;
 import static chess.model.Direction.UP;
+import static java.lang.Integer.signum;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.util.Map.Entry;
@@ -135,7 +136,18 @@ public class BoardImpl implements Board {
             System.out.println("a piece of the same color already exists at the new position");
             return false;
         }
-        // TODO only the knight may move through units
+        if (!(piece instanceof Knight)) {
+            int rowSign = signum(newPosition.getRow() - currentPosition.getRow());
+            int columnSign = signum(newPosition.getColumn() - currentPosition.getColumn());
+            Position inBetween = new PositionImpl(currentPosition.getRow() + rowSign, currentPosition.getColumn() + columnSign);
+            while (!newPosition.equals(inBetween)) {
+                if (boardConfig.get(inBetween) != null) {
+                    System.out.println("the move would cause a collision before reaching the endpoint");
+                    return false;
+                }
+                inBetween = new PositionImpl(inBetween.getRow() + rowSign, inBetween.getColumn() + columnSign);
+            }
+        }
 
         boardConfig.remove(currentPosition);
         boardConfig.put(newPosition, piece);
