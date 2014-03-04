@@ -1,10 +1,9 @@
 package chess.model.pieces;
 
-import chess.model.Board;
-import chess.model.BoardAware;
-import chess.model.Color;
-import chess.model.Position;
+import chess.model.*;
 
+import static chess.model.Direction.DOWN;
+import static chess.model.Direction.UP;
 import static java.lang.Math.abs;
 
 /**
@@ -25,7 +24,7 @@ public class Pawn implements Piece, BoardAware {
     }
 
     /**
-     * Returns true if the move is valid.
+     * Returns true if the move is valid.  Does not check if movement exposes the king of the same color.
      *
      * @param p1 the original position
      * @param p2 the new position
@@ -33,25 +32,38 @@ public class Pawn implements Piece, BoardAware {
      */
     @Override
     public boolean isValidMove(Position p1, Position p2) {
-        int directionVector = board.getDirection(color).getValue();
-        if (directionVector * (p2.getRow() - p1.getRow()) < 0) {
-            // a move in the wrong direction
+        Direction direction = board.getDirection(color);
+        if (direction.getValue() * (p2.getRow() - p1.getRow()) < 0) {
+            System.out.println("the move is in the wrong direction");
             return false;
         }
         if (p2.getColumn() == p1.getColumn()) {
             // Movement Logic
             Piece existingPiece = board.getPiece(p2);
             if (existingPiece != null) {
-                // a pawn may not capture during normal movement
+                System.out.println("a pawn may not capture during normal movement");
                 return false;
             }
             int verticalDistance = abs(p2.getRow() - p1.getRow());
             if (verticalDistance == 1) {
                 return true;
             } else if (verticalDistance == 2) {
-                // ensure this is the pawn's first move
-                // TODO
+                if (direction == UP && p1.getRow() != 6) {
+                    System.out.println("a pawn can only move 2 spaces on its first move");
+                    return false;
+                } else if (direction == DOWN && p1.getRow() != 1) {
+                    System.out.println("a pawn can only move 2 spaces on its first move");
+                    return false;
+                }
+                Position midpoint = new PositionImpl(p1.getRow() + (p2.getRow() - p1.getRow()) / 2, p1.getColumn());
+                Piece inBetween = board.getPiece(midpoint);
+                if (inBetween != null) {
+                    System.out.println("there was a piece in between movement endpoints");
+                    return false;
+                }
+                return true;
             } else {
+                System.out.println("a pawn can move at most 2 spaces");
                 return false;
             }
         } else if ((abs(p2.getColumn() - p1.getColumn()) == 1)
@@ -62,9 +74,11 @@ public class Pawn implements Piece, BoardAware {
                 return true;
             } else {
                 // TODO en passant logic
+                return false;
             }
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
