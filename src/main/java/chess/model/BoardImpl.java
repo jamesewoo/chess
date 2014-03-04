@@ -18,7 +18,7 @@ import static java.util.Map.Entry;
  */
 public class BoardImpl implements Board {
 
-    private final Map<Position, Piece> positionPieceMap = new HashMap<>();
+    private final Map<Position, Piece> boardConfig;
     private final Piece whiteKing;
     private final Piece blackKing;
     private Color activePlayer;
@@ -27,44 +27,63 @@ public class BoardImpl implements Board {
         activePlayer = WHITE;
         whiteKing = new King(WHITE);
         blackKing = new King(BLACK);
-        positionPieceMap.put(new PositionImpl(6, 0), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 1), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 2), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 3), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 4), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 5), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 6), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(6, 7), new Pawn(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 0), new Rook(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 7), new Rook(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 1), new Knight(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 6), new Knight(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 2), new Bishop(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 5), new Bishop(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 3), new Queen(WHITE));
-        positionPieceMap.put(new PositionImpl(7, 4), whiteKing);
-        positionPieceMap.put(new PositionImpl(1, 0), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 1), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 2), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 3), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 4), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 5), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 6), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(1, 7), new Pawn(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 0), new Rook(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 7), new Rook(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 1), new Knight(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 6), new Knight(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 2), new Bishop(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 5), new Bishop(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 3), new Queen(BLACK));
-        positionPieceMap.put(new PositionImpl(0, 4), blackKing);
+        boardConfig = new HashMap<>();
+        boardConfig.put(new PositionImpl(6, 0), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 1), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 2), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 3), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 4), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 5), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 6), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(6, 7), new Pawn(WHITE));
+        boardConfig.put(new PositionImpl(7, 0), new Rook(WHITE));
+        boardConfig.put(new PositionImpl(7, 7), new Rook(WHITE));
+        boardConfig.put(new PositionImpl(7, 1), new Knight(WHITE));
+        boardConfig.put(new PositionImpl(7, 6), new Knight(WHITE));
+        boardConfig.put(new PositionImpl(7, 2), new Bishop(WHITE));
+        boardConfig.put(new PositionImpl(7, 5), new Bishop(WHITE));
+        boardConfig.put(new PositionImpl(7, 3), new Queen(WHITE));
+        boardConfig.put(new PositionImpl(7, 4), whiteKing);
+        boardConfig.put(new PositionImpl(1, 0), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 1), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 2), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 3), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 4), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 5), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 6), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(1, 7), new Pawn(BLACK));
+        boardConfig.put(new PositionImpl(0, 0), new Rook(BLACK));
+        boardConfig.put(new PositionImpl(0, 7), new Rook(BLACK));
+        boardConfig.put(new PositionImpl(0, 1), new Knight(BLACK));
+        boardConfig.put(new PositionImpl(0, 6), new Knight(BLACK));
+        boardConfig.put(new PositionImpl(0, 2), new Bishop(BLACK));
+        boardConfig.put(new PositionImpl(0, 5), new Bishop(BLACK));
+        boardConfig.put(new PositionImpl(0, 3), new Queen(BLACK));
+        boardConfig.put(new PositionImpl(0, 4), blackKing);
 
-        for (Piece p : positionPieceMap.values()) {
+        for (Piece p : boardConfig.values()) {
             if (p instanceof BoardAware) {
                 ((BoardAware) p).setBoard(this);
             }
         }
+    }
+
+    public BoardImpl(Color activePlayer, Map<Position, Piece> boardConfig) {
+        this.activePlayer = activePlayer;
+        this.boardConfig = boardConfig;
+        Piece whiteKing = null;
+        Piece blackKing = null;
+        for (Piece piece : boardConfig.values()) {
+            if (piece instanceof King) {
+                if (piece.getColor() == WHITE) {
+                    whiteKing = piece;
+                } else {
+                    blackKing = piece;
+                }
+            }
+        }
+        this.whiteKing = whiteKing;
+        this.blackKing = blackKing;
     }
 
     @Override
@@ -83,7 +102,7 @@ public class BoardImpl implements Board {
 
     @Override
     public boolean move(Position currentPosition, Position newPosition) {
-        Piece piece = positionPieceMap.get(currentPosition);
+        Piece piece = boardConfig.get(currentPosition);
         if (piece == null) {
             System.out.println("no piece was found at the given position");
             return false;
@@ -102,23 +121,24 @@ public class BoardImpl implements Board {
             return false;
         }
         if (!piece.isValidMove(currentPosition, newPosition)) {
-            System.out.println("new position is invalid for the moving piece");
+            System.out.println("new position is invalid given the movement constraints of the piece");
             return false;
         }
-        Piece existingPiece = positionPieceMap.get(newPosition);
+        Piece existingPiece = boardConfig.get(newPosition);
         if (existingPiece != null && existingPiece.getColor() == piece.getColor()) {
             System.out.println("a piece of the same color already exists at the new position");
             return false;
         }
+        // TODO only the knight may move through units
 
-        positionPieceMap.remove(currentPosition);
-        positionPieceMap.put(newPosition, piece);
+        boardConfig.remove(currentPosition);
+        boardConfig.put(newPosition, piece);
         if (isKingExposed(piece.getColor())) {
             System.out.println("the move exposes the king of the same color");
-            positionPieceMap.remove(newPosition);
-            positionPieceMap.put(currentPosition, piece);
+            boardConfig.remove(newPosition);
+            boardConfig.put(currentPosition, piece);
             if (existingPiece != null) {
-                positionPieceMap.put(newPosition, existingPiece);
+                boardConfig.put(newPosition, existingPiece);
             }
             return false;
         }
@@ -139,7 +159,7 @@ public class BoardImpl implements Board {
      */
     Position findPosition(Piece piece) {
         Position position = null;
-        for (Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
+        for (Entry<Position, Piece> entry : boardConfig.entrySet()) {
             if (piece == entry.getValue()) {
                 position = entry.getKey();
             }
@@ -157,7 +177,7 @@ public class BoardImpl implements Board {
         if (kingPosition == null) {
             throw new IllegalStateException("no king found");
         }
-        for (Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
+        for (Entry<Position, Piece> entry : boardConfig.entrySet()) {
             Piece p = entry.getValue();
             if (p.getColor() != color && p.isValidMove(entry.getKey(), kingPosition)) {
                 return true;
@@ -168,7 +188,7 @@ public class BoardImpl implements Board {
 
     @Override
     public Piece getPiece(Position position) {
-        return positionPieceMap.get(position);
+        return boardConfig.get(position);
     }
 
     @Override
@@ -177,7 +197,7 @@ public class BoardImpl implements Board {
         for (int row = 0; row < 8; ++row) {
             str.append("!");
             for (int col = 0; col < 8; ++col) {
-                Piece piece = positionPieceMap.get(new PositionImpl(row, col));
+                Piece piece = boardConfig.get(new PositionImpl(row, col));
                 if (piece != null) {
                     str.append(format("%8s",
                             piece.getColor().toString().charAt(0) + "_" + piece.getClass().getSimpleName()));
