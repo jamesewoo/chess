@@ -28,5 +28,7 @@ public class KingTest {
         assertFalse(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 1)));
         assertFalse(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 3)));
         assertFalse(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 3)));
+
+        // TODO test castle
     }
 }

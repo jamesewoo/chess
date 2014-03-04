@@ -61,11 +61,7 @@ public class BoardImpl implements Board {
         boardConfig.put(new PositionImpl(0, 3), new Queen(BLACK));
         boardConfig.put(new PositionImpl(0, 4), blackKing);
 
-        for (Piece p : boardConfig.values()) {
-            if (p instanceof BoardAware) {
-                ((BoardAware) p).setBoard(this);
-            }
-        }
+        registerBoardListeners();
     }
 
     public BoardImpl(Color activePlayer, Map<Position, Piece> boardConfig) {
@@ -84,6 +80,16 @@ public class BoardImpl implements Board {
         }
         this.whiteKing = whiteKing;
         this.blackKing = blackKing;
+
+        registerBoardListeners();
+    }
+
+    private void registerBoardListeners() {
+        for (Piece p : boardConfig.values()) {
+            if (p instanceof BoardAware) {
+                ((BoardAware) p).setBoard(this);
+            }
+        }
     }
 
     @Override

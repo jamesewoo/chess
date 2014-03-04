@@ -128,5 +128,8 @@ public class BoardImplTest {
         board.move(new PositionImpl(6, 4), new PositionImpl(5, 4));
         System.out.println(board);
         assertEquals(BLACK, board.getActivePlayer());
+        board.move(new PositionImpl(1, 4), new PositionImpl(2, 4));
+        System.out.println(board);
+        assertEquals(WHITE, board.getActivePlayer());
     }
 }
