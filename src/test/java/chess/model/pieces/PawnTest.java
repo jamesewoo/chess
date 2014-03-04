@@ -1,5 +1,6 @@
 package chess.model.pieces;
 
+import chess.model.BoardImpl;
 import chess.model.PositionImpl;
 import org.junit.Test;
 
@@ -14,21 +15,23 @@ import static org.junit.Assert.assertTrue;
 public class PawnTest {
     @Test
     public void testIsValidMove() {
-        Piece pawn = new Pawn(WHITE);
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 0)));
-        assertTrue(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 1)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 2)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 0)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 1)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 2)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(2, 0)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(2, 1)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(2, 2)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 1)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 3)));
-        assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 3)));
+        Pawn pawn = new Pawn(WHITE);
+        pawn.setBoard(new BoardImpl());
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 0)));
+        assertTrue(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 1)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 2)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(6, 0)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(6, 1)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(6, 2)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(7, 0)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(7, 1)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(7, 2)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(4, 1)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(1, 4)));
+        assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(4, 3)));
 
         pawn = new Pawn(BLACK);
+        pawn.setBoard(new BoardImpl());
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 0)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 1)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 2)));
@@ -41,5 +44,7 @@ public class PawnTest {
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 1)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(1, 3)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(3, 3)));
+
+        // TODO test initial move, capture
     }
 }

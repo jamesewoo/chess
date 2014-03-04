@@ -7,8 +7,11 @@ import java.util.Map;
 
 import static chess.model.Color.BLACK;
 import static chess.model.Color.WHITE;
+import static chess.model.Direction.DOWN;
+import static chess.model.Direction.UP;
 import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
+import static java.util.Map.Entry;
 
 /**
  * An 8x8 Chess board with the upper left position represented by (0, 0) and the bottom right position represented by (7, 7).
@@ -56,11 +59,26 @@ public class BoardImpl implements Board {
         positionPieceMap.put(new PositionImpl(0, 5), new Bishop(BLACK));
         positionPieceMap.put(new PositionImpl(0, 3), new Queen(BLACK));
         positionPieceMap.put(new PositionImpl(0, 4), blackKing);
+
+        for (Piece p : positionPieceMap.values()) {
+            if (p instanceof BoardAware) {
+                ((BoardAware) p).setBoard(this);
+            }
+        }
     }
 
     @Override
     public Color getActivePlayer() {
         return activePlayer;
+    }
+
+    @Override
+    public Direction getDirection(Color color) {
+        if (color == WHITE) {
+            return UP;
+        } else {
+            return DOWN;
+        }
     }
 
     @Override
@@ -95,7 +113,7 @@ public class BoardImpl implements Board {
 
         positionPieceMap.remove(currentPosition);
         positionPieceMap.put(newPosition, piece);
-        if (kingIsExposed(piece.getColor())) {
+        if (isKingExposed(piece.getColor())) {
             System.out.println("the move exposes the king of the same color");
             positionPieceMap.remove(newPosition);
             positionPieceMap.put(currentPosition, piece);
@@ -119,9 +137,9 @@ public class BoardImpl implements Board {
      * @param piece the piece to find
      * @return the position of the given piece; null if it does not exist
      */
-    Position findPiece(Piece piece) {
+    Position findPosition(Piece piece) {
         Position position = null;
-        for (Map.Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
+        for (Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
             if (piece == entry.getValue()) {
                 position = entry.getKey();
             }
@@ -129,17 +147,17 @@ public class BoardImpl implements Board {
         return position;
     }
 
-    boolean kingIsExposed(Color color) {
+    boolean isKingExposed(Color color) {
         Position kingPosition;
         if (color == WHITE) {
-            kingPosition = findPiece(whiteKing);
+            kingPosition = findPosition(whiteKing);
         } else {
-            kingPosition = findPiece(blackKing);
+            kingPosition = findPosition(blackKing);
         }
         if (kingPosition == null) {
             throw new IllegalStateException("no king found");
         }
-        for (Map.Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
+        for (Entry<Position, Piece> entry : positionPieceMap.entrySet()) {
             Piece p = entry.getValue();
             if (p.getColor() != color && p.isValidMove(entry.getKey(), kingPosition)) {
                 return true;

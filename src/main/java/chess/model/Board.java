@@ -15,6 +15,14 @@ public interface Board {
     public Color getActivePlayer();
 
     /**
+     * Returns the direction of pawn movement for the given color.
+     *
+     * @param color the color to query
+     * @return the direction of pawn movement
+     */
+    public Direction getDirection(Color color);
+
+    /**
      * Moves the piece at the given position to the new position.  The move must be validated before being executed.
      *
      * @param currentPosition the original position
