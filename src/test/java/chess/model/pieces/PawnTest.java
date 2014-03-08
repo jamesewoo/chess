@@ -1,7 +1,7 @@
 package chess.model.pieces;
 
 import chess.model.Board;
-import chess.model.BoardImpl;
+import chess.model.PieceListBoard;
 import chess.model.PositionImpl;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class PawnTest {
     @Test
     public void testMoveInWrongDirection() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertFalse(pawn.isValidMove(new PositionImpl(4, 3), new PositionImpl(5, 3)));
@@ -34,7 +34,7 @@ public class PawnTest {
     @Test
     public void testMoveIntoOppositeColor() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertFalse(pawn.isValidMove(new PositionImpl(4, 3), new PositionImpl(3, 3)));
@@ -46,7 +46,7 @@ public class PawnTest {
     @Test
     public void testMoveTwoSpaces() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertTrue(pawn.isValidMove(new PositionImpl(6, 7), new PositionImpl(4, 7)));
@@ -60,7 +60,7 @@ public class PawnTest {
     @Test
     public void testMoveCollisionAtMidpoint() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(4, 1)));
@@ -72,7 +72,7 @@ public class PawnTest {
     @Test
     public void testMoveMoreThanTwoSpaces() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertFalse(pawn.isValidMove(new PositionImpl(5, 6), new PositionImpl(2, 6)));
@@ -86,7 +86,7 @@ public class PawnTest {
     @Test
     public void testCaptureLogic() {
         Pawn pawn = new Pawn(WHITE);
-        Board board = new BoardImpl(WHITE, newPawnSetupFixture());
+        Board board = new PieceListBoard(WHITE, newPawnSetupFixture());
         System.out.println(board);
         pawn.setBoard(board);
         assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 0)));
@@ -100,7 +100,7 @@ public class PawnTest {
     @Test
     public void testIsValidMove() {
         Pawn pawn = new Pawn(WHITE);
-        pawn.setBoard(new BoardImpl());
+        pawn.setBoard(new PieceListBoard());
         assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 0)));
         assertTrue(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 1)));
         assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(5, 2)));
@@ -115,7 +115,7 @@ public class PawnTest {
         assertFalse(pawn.isValidMove(new PositionImpl(6, 1), new PositionImpl(4, 3)));
 
         pawn = new Pawn(BLACK);
-        pawn.setBoard(new BoardImpl());
+        pawn.setBoard(new PieceListBoard());
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 0)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 1)));
         assertFalse(pawn.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 2)));

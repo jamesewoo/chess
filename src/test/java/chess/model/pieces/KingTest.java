@@ -1,6 +1,6 @@
 package chess.model.pieces;
 
-import chess.model.BoardImpl;
+import chess.model.PieceListBoard;
 import chess.model.PositionImpl;
 import org.junit.Test;
 
@@ -15,7 +15,7 @@ public class KingTest {
     @Test
     public void testIsValidMove() {
         King king = new King(WHITE);
-        king.setBoard(new BoardImpl());
+        king.setBoard(new PieceListBoard());
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 0)));
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 1)));
         assertTrue(king.isValidMove(new PositionImpl(1, 1), new PositionImpl(0, 2)));

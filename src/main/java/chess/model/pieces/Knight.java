@@ -23,7 +23,7 @@ public class Knight implements Piece {
 
     @Override
     public boolean isValidMove(Position p1, Position p2) {
-        return (abs(p2.getRow() - p1.getRow()) == 1 && abs(p2.getColumn() - p1.getColumn()) == 2)
-                || (abs(p2.getRow() - p1.getRow()) == 2 && abs(p2.getColumn() - p1.getColumn()) == 1);
+        return (abs(p2.getRank() - p1.getRank()) == 1 && abs(p2.getFile() - p1.getFile()) == 2)
+                || (abs(p2.getRank() - p1.getRank()) == 2 && abs(p2.getFile() - p1.getFile()) == 1);
     }
 }

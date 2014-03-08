@@ -24,7 +24,7 @@ public class Rook implements Piece {
         if (p2.equals(p1)) {
             return false;
         }
-        return p2.getRow() == p1.getRow()
-                || p2.getColumn() == p1.getColumn();
+        return p2.getRank() == p1.getRank()
+                || p2.getFile() == p1.getFile();
     }
 }

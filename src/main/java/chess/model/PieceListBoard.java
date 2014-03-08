@@ -15,16 +15,17 @@ import static java.lang.System.lineSeparator;
 import static java.util.Map.Entry;
 
 /**
- * An 8x8 Chess board with the upper left position represented by (0, 0) and the bottom right position represented by (7, 7).
+ * A piece list board implementation with the upper left position represented by (0, 0) and the bottom right position
+ * represented by (7, 7).
  */
-public class BoardImpl implements Board {
+public class PieceListBoard implements Board {
 
     private final Map<Position, Piece> boardConfig;
     private final Piece whiteKing;
     private final Piece blackKing;
     private Color activePlayer;
 
-    public BoardImpl() {
+    public PieceListBoard() {
         activePlayer = WHITE;
         whiteKing = new King(WHITE);
         blackKing = new King(BLACK);
@@ -65,7 +66,7 @@ public class BoardImpl implements Board {
         registerBoardListeners();
     }
 
-    public BoardImpl(Color activePlayer, Map<Position, Piece> boardConfig) {
+    public PieceListBoard(Color activePlayer, Map<Position, Piece> boardConfig) {
         this.activePlayer = activePlayer;
         this.boardConfig = boardConfig;
         Piece whiteKing = null;
@@ -118,8 +119,8 @@ public class BoardImpl implements Board {
             System.out.println("it is not this player's turn");
             return false;
         }
-        if (newPosition.getColumn() < 0 || newPosition.getColumn() > 7
-                || newPosition.getRow() < 0 || newPosition.getRow() > 7) {
+        if (newPosition.getFile() < 0 || newPosition.getFile() > 7
+                || newPosition.getRank() < 0 || newPosition.getRank() > 7) {
             System.out.println("new position is out of bounds");
             return false;
         }
@@ -169,14 +170,14 @@ public class BoardImpl implements Board {
      * @return true if there are no pieces along the path given by the start and end points
      */
     boolean isPathCollisionFree(Position start, Position end) {
-        int rowSign = signum(end.getRow() - start.getRow());
-        int columnSign = signum(end.getColumn() - start.getColumn());
-        Position inBetween = new PositionImpl(start.getRow() + rowSign, start.getColumn() + columnSign);
+        int rowSign = signum(end.getRank() - start.getRank());
+        int columnSign = signum(end.getFile() - start.getFile());
+        Position inBetween = new PositionImpl(start.getRank() + rowSign, start.getFile() + columnSign);
         while (!end.equals(inBetween)) {
             if (boardConfig.get(inBetween) != null) {
                 return false;
             }
-            inBetween = new PositionImpl(inBetween.getRow() + rowSign, inBetween.getColumn() + columnSign);
+            inBetween = new PositionImpl(inBetween.getRank() + rowSign, inBetween.getFile() + columnSign);
         }
         return true;
     }

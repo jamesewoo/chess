@@ -26,6 +26,6 @@ public class Bishop implements Piece {
         if (p2.equals(p1)) {
             return false;
         }
-        return abs(p2.getRow() - p1.getRow()) == abs(p2.getColumn() - p1.getColumn());
+        return abs(p2.getRank() - p1.getRank()) == abs(p2.getFile() - p1.getFile());
     }
 }

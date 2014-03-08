@@ -1,11 +1,21 @@
 package chess.model;
 
 /**
- * Created by evadrone on 3/3/14.
+ * A position on the board.
  */
 public interface Position {
 
-    public int getRow();
+    /**
+     * Returns the rank (row).
+     *
+     * @return the rank
+     */
+    public int getRank();
 
-    public int getColumn();
+    /**
+     * Returns the file (column).
+     *
+     * @return the file
+     */
+    public int getFile();
 }

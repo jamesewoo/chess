@@ -29,8 +29,8 @@ public class PositionImpl implements Position {
         }
         Position rhs = (Position) obj;
         return new EqualsBuilder()
-                .append(row, rhs.getRow())
-                .append(column, rhs.getColumn())
+                .append(row, rhs.getRank())
+                .append(column, rhs.getFile())
                 .isEquals();
     }
 
@@ -43,12 +43,12 @@ public class PositionImpl implements Position {
     }
 
     @Override
-    public int getRow() {
+    public int getRank() {
         return row;
     }
 
     @Override
-    public int getColumn() {
+    public int getFile() {
         return column;
     }
 }
