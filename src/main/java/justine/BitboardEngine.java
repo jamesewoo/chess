@@ -49,31 +49,29 @@ public class BitboardEngine implements ChessEngine {
         }
     }
 
-    private final long[] pieceBb = new long[8];
+    private final long[] pieceSet = new long[8];
 
     public BitboardEngine() {
-        pieceBb[0] = getRankOne() << 8;
-        pieceBb[0] ^= getRankOne();
-        pieceBb[1] = getRankEight() >>> 8;
-        pieceBb[1] ^= getRankEight();
-        pieceBb[2] = getRankOne() << 8 | getRankEight() >>> 8;
-        pieceBb[3] = 1L << 1 | 1L << 6 | 1L << 57 | 1L << 62;
-        pieceBb[4] = 1L << 2 | 1L << 5 | 1L << 58 | 1L << 61;
-        pieceBb[5] = 1L | 1L << 7 | 1L << 56 | 1L << 63;
-        pieceBb[6] = 1L << 3 | 1L << 59;
-        pieceBb[7] = 1L << 4 | 1L << 60;
+        pieceSet[0] = getRankOne() << 8 | getRankOne();
+        pieceSet[1] = getRankEight() | getRankEight() >>> 8;
+        pieceSet[2] = getRankOne() << 8 | getRankEight() >>> 8;
+        pieceSet[3] = 1L << 1 | 1L << 6 | 1L << 57 | 1L << 62;
+        pieceSet[4] = 1L << 2 | 1L << 5 | 1L << 58 | 1L << 61;
+        pieceSet[5] = 1L | 1L << 7 | 1L << 56 | 1L << 63;
+        pieceSet[6] = 1L << 3 | 1L << 59;
+        pieceSet[7] = 1L << 4 | 1L << 60;
     }
 
-    long getPieceBb(int index) {
-        return pieceBb[index];
+    long getPieceSet(int index) {
+        return pieceSet[index];
     }
 
     long getPieceSet(ColorType colorType, PieceType pieceType) {
-        return pieceBb[getIndex(colorType)] & pieceBb[getIndex(pieceType)];
+        return pieceSet[getIndex(colorType)] & pieceSet[getIndex(pieceType)];
     }
 
     long getOccupiedBb() {
-        return pieceBb[N_WHITE] | pieceBb[N_BLACK];
+        return pieceSet[N_WHITE] | pieceSet[N_BLACK];
     }
 
     long getEmptyBb() {
